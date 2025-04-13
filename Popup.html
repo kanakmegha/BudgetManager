@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Budget Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #e8f0fe;
+            --warning-color: #fbbc05;
+            --danger-color: #ea4335;
+            --success-color: #34a853;
+            --text-color: #202124;
+            --text-secondary: #5f6368;
+            --border-color: #dadce0;
+            --bg-color: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            width: 320px;
+            padding: 16px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .header-links {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .header-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .header-link:hover {
+            text-decoration: underline;
+        }
+
+        .btn {
+            font-family: 'Inter', sans-serif;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .budget-section {
+            margin-bottom: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: var(--secondary-color);
+        }
+
+        .budget-input {
+            margin-bottom: 12px;
+        }
+
+        .budget-input label {
+            display: block;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .budget-input input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .budget-summary {
+            margin-top: 16px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .summary-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .summary-value {
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .budget-progress {
+            margin-top: 12px;
+        }
+
+        .progress-container {
+            height: 6px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 4px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--success-color);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .button-group button {
+            flex: 1;
+        }
+        
+        .dashboard-link {
+            margin-top: 16px;
+            text-align: center;
+        }
+        
+        .dashboard-link a {
+            display: block;
+            padding: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .dashboard-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Budget Manager</h1>
+        <div class="header-links">
+            <a href="#" class="header-link" id="transactionsLink">Transactions</a>
+        </div>
+    </div>
+    
+    <div class="budget-section">
+        <div class="budget-input">
+            <label for="limit">Budget Limit ($)</label>
+            <input type="number" id="limit" min="0" step="0.01" placeholder="Enter your budget limit">
+        </div>
+        
+        <div class="budget-summary">
+            <div class="summary-item">
+                <span class="summary-label">Total Spent:</span>
+                <span class="summary-value" id="total">$0.00</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Available:</span>
+                <span class="summary-value" id="available">$0.00</span>
+            </div>
+        </div>
+        
+        <div class="budget-progress">
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="progress-label">
+                <span id="progressPercentage">0%</span>
+                <span id="spentOfLimit">$0 / $0</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="button-group">
+        <button class="btn btn-outline" id="resetBtn">Reset Budget</button>
+        <button class="btn btn-primary" id="setLimitBtn">Save Limit</button>
+    </div>
+    
+    <div class="dashboard-link">
+        <a href="#" id="dashboardLink">View Dashboard</a>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>

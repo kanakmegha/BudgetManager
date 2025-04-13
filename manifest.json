@@ -1,0 +1,37 @@
+{
+    "manifest_version": 3,
+    "name": "Budget Manager",
+    "version": "3.0",
+    "description": "A Budget Manager extension that tracks all your expenses",
+    "icons": {
+        "128": "BudgetManager128.jpg",
+        "48": "BudgetManager48.jpg",
+        "16": "BudgetManager16.jpg"
+    },
+    "action": {
+    "default_icon": {
+        "128": "BudgetManager128.jpg",
+        "48": "BudgetManager48.jpg",
+        "16": "BudgetManager16.jpg"
+    },
+    "default_popup": "popup.html"
+    },
+    "options_page": "options.html",
+    "background": {
+    "service_worker": "eventPage.js"
+    },
+    "permissions": [
+    "storage",
+    "notifications",
+    "contextMenus"
+    ],
+    "content_security_policy": {
+        "extension_pages": "script-src 'self'; object-src 'self'"
+    },
+    "web_accessible_resources": [
+        {
+            "resources": ["transaction_confirm.html", "transaction_confirm.js"],
+            "matches": ["<all_urls>"]
+        }
+    ]
+}

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Budget Manager - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --text-color: #333;
+            --border-color: #e0e0e0;
+            --background-color: #f9fafb;
+            --card-bg-color: #fff;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            line-height: 1.4;
+            padding: 1.25rem;
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 0.9rem;
+        }
+        
+        header {
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        h1 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: #1a1a1a;
+        }
+        
+        nav {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        nav a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: opacity 0.2s;
+        }
+        
+        nav a:hover {
+            opacity: 0.8;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .card {
+            background: var(--card-bg-color);
+            border-radius: 6px;
+            padding: 0.75rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .card-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #666;
+            margin-bottom: 0.25rem;
+            font-weight: 400;
+        }
+        
+        .card-value {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        
+        .progress-container {
+            height: 4px;
+            background-color: var(--border-color);
+            border-radius: 2px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: var(--success-color);
+            border-radius: 2px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+            background: var(--card-bg-color);
+            border-radius: 6px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            font-size: 0.8rem;
+        }
+        
+        thead {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        th, td {
+            padding: 0.6rem 0.75rem;
+            text-align: left;
+        }
+        
+        th {
+            font-weight: 500;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        tbody tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.01);
+        }
+        
+        tfoot td {
+            font-weight: 500;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.75rem;
+        }
+        
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background: var(--card-bg-color);
+            border-radius: 6px;
+            box-shadow: var(--shadow);
+            color: #666;
+            text-align: center;
+        }
+        
+        .empty-state p {
+            margin-top: 0.25rem;
+            font-size: 0.8rem;
+            color: #999;
+        }
+        
+        h2 {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #1a1a1a;
+        }
+        
+        .category-food {
+            color: var(--success-color);
+        }
+        
+        .category-transport {
+            color: var(--primary-color);
+        }
+        
+        .category-clothes {
+            color: var(--warning-color);
+        }
+        
+        .category-miscellaneous {
+            color: var(--danger-color);
+        }
+
+        @media (max-width: 480px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Budget Manager</h1>
+        <nav>
+            <a href="popup.html">Home</a>
+            <a href="#" id="resetData">Reset</a>
+        </nav>
+    </header>
+    
+    <div class="grid">
+        <div class="card">
+            <div class="card-title">Limit</div>
+            <div class="card-value" id="limitValue">$0.00</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Spent</div>
+            <div class="card-value" id="totalValue">$0.00</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Available</div>
+            <div class="card-value" id="availableValue">$0.00</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Progress</div>
+            <div class="card-value" id="progressValue">0%</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="grid">
+        <div class="card">
+            <div class="card-title">Food</div>
+            <div class="card-value category-food" id="foodValue">$0.00</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Transport</div>
+            <div class="card-value category-transport" id="transportValue">$0.00</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Clothes</div>
+            <div class="card-value category-clothes" id="clothesValue">$0.00</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Misc</div>
+            <div class="card-value category-miscellaneous" id="miscValue">$0.00</div>
+        </div>
+    </div>
+    
+    <h2>Transactions</h2>
+    
+    <div id="transactionsContainer">
+        <div class="empty-state" id="emptyState">
+            <p>No transactions recorded yet.</p>
+        </div>
+        
+        <table id="transactionsTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody id="transactionsBody">
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">Total</td>
+                    <td id="tableTotal">$0.00</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    
+    <script src="dashboard.js"></script>
+</body>
+</html> 
